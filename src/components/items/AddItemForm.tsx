@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -79,7 +80,7 @@ export function AddItemForm() {
         );
       }
       
-      addItem({
+      await addItem({
         name: values.name,
         type: values.type,
         description: values.description,
