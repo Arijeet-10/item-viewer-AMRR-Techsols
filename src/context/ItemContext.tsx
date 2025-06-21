@@ -51,12 +51,13 @@ export function ItemProvider({ children }: { children: ReactNode }) {
         });
       });
       
-      if (querySnapshot.empty) {
-        // If the database is empty, fall back to the initial sample data for showcase purposes.
-        setItems(initialItems);
-      } else {
-        setItems(itemsData);
-      }
+      // Combine database items with static items, avoiding duplicates based on item name.
+      const dbItemNames = new Set(itemsData.map(item => item.name));
+      const uniqueInitialItems = initialItems.filter(item => !dbItemNames.has(item.name));
+      
+      // Items from the database are sorted by creation date. Show them first,
+      // followed by the unique static items.
+      setItems([...itemsData, ...uniqueInitialItems]);
       
       setError(null);
       setLoading(false);
