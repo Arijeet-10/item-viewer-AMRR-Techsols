@@ -49,7 +49,14 @@ export function ItemProvider({ children }: { children: ReactNode }) {
           'data-ai-hint': data['data-ai-hint'],
         });
       });
-      setItems(itemsData);
+      
+      if (querySnapshot.empty) {
+        // If the database is empty, fall back to the initial sample data for showcase purposes.
+        setItems(initialItems);
+      } else {
+        setItems(itemsData);
+      }
+      
       setError(null);
       setLoading(false);
     }, (err) => {
