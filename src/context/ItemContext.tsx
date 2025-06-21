@@ -7,6 +7,7 @@ import type { Item } from '@/types';
 import { db } from '@/lib/firebase';
 import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, type QueryDocumentSnapshot, type DocumentData, FirestoreError } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
+import { initialItems } from '@/lib/initial-data';
 
 type ItemContextType = {
   items: Item[];
@@ -27,6 +28,7 @@ export function ItemProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
       console.warn("Firebase project ID is not configured. Skipping Firestore connection. Using initial data.");
+      setItems(initialItems);
       setLoading(false);
       return;
     }
@@ -54,15 +56,15 @@ export function ItemProvider({ children }: { children: ReactNode }) {
         console.error("Error fetching items from Firestore:", err);
         let errorMessage = "Could not fetch items from the database.";
         if (err instanceof FirestoreError && err.code === 'permission-denied') {
-            errorMessage = "Permission denied. Please check your Firestore security rules."
+            errorMessage = "Permission denied. Displaying sample data instead. Please check your Firestore security rules to connect to the database."
+            setItems(initialItems); // Fallback to initial data
             toast({
                 variant: 'destructive',
                 title: 'Permission Denied',
-                description: 'Your Firestore security rules do not allow reading from the "items" collection.',
+                description: 'Your Firestore security rules do not allow reading. Displaying sample data instead.',
             });
         }
         setError(errorMessage);
-        setItems([]);
         setLoading(false);
     });
 
@@ -71,7 +73,14 @@ export function ItemProvider({ children }: { children: ReactNode }) {
 
   const addItem = async (newItemData: Omit<Item, 'id'>) => {
      if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
-      throw new Error("Firebase is not configured. Cannot add item.");
+      console.warn("Firebase not configured. Adding item locally for demo purposes.");
+      const newItem = { ...newItemData, id: new Date().toISOString() };
+      setItems(prevItems => [newItem, ...prevItems]);
+      toast({
+        title: "Sample Mode",
+        description: "Item added to local view. It will not be saved to a database.",
+      });
+      return;
     }
     try {
       await addDoc(collection(db, "items"), {
