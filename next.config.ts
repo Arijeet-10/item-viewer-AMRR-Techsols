@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
+    domains: ['nobero.com', 'spykar.com','sreeleathersonline.com' , 'm.media-amazon.com'],
+    
     remotePatterns: [
       {
         protocol: 'https',

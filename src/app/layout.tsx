@@ -9,8 +9,10 @@ import { Header } from "@/components/layout/Header";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Wardrobe Wizard",
-  description: "Your personal AI-powered wardrobe assistant.",
+  title: "Item Viewer",
+  icons: {
+    icon: "/favicon.ico", 
+  },
 };
 
 export default function RootLayout({

@@ -30,7 +30,7 @@ export async function sendEnquiry(input: SendEnquiryInput): Promise<SendEnquiryO
 const emailPrompt = ai.definePrompt({
   name: 'sendEnquiryPrompt',
   input: {schema: SendEnquiryInputSchema},
-  prompt: `You are an administrative assistant for an online wardrobe management app called "Wardrobe Wizard".
+  prompt: `You are an administrative assistant for an online wardrobe management app called "Item Viewer".
 A user has just clicked "Enquire" on one of their items.
 Generate a professional and friendly email body for an internal enquiry.
 

@@ -1,4 +1,4 @@
-# **App Name**: Wardrobe Wizard
+# **App Name**: Item Viewer
 
 ## Core Features:
 
