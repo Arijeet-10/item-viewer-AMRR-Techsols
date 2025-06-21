@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { FirestoreError } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -80,7 +81,7 @@ export function AddItemForm() {
         );
       }
       
-      await addItem({
+      const result = await addItem({
         name: values.name,
         type: values.type,
         description: values.description,
@@ -88,18 +89,29 @@ export function AddItemForm() {
         additionalImages: additionalImageUris,
       });
 
-      toast({
-        title: "Success!",
-        description: "Item successfully added to your wardrobe.",
-        variant: 'default',
-      });
-
-      router.push('/');
+      if (result.success) {
+        toast({
+          title: "Success!",
+          description: "Item successfully added to your wardrobe.",
+          variant: 'default',
+        });
+        router.push('/');
+      } else {
+        const isPermissionError = result.error instanceof FirestoreError && result.error.code === 'permission-denied';
+        if (!isPermissionError) {
+          toast({
+            title: "Error",
+            description: "Failed to save item to the database. Please try again.",
+            variant: "destructive",
+          });
+        }
+        setIsSubmitting(false);
+      }
     } catch (error) {
       console.error("Error adding item:", error);
       toast({
-        title: "Error",
-        description: "Failed to add item. Please try again.",
+        title: "Submission Error",
+        description: "Could not process item data. Please try again.",
         variant: "destructive",
       });
       setIsSubmitting(false);

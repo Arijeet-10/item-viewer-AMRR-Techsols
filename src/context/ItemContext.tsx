@@ -11,7 +11,7 @@ import { initialItems } from '@/lib/initial-data';
 
 type ItemContextType = {
   items: Item[];
-  addItem: (item: Omit<Item, 'id'>) => Promise<void>;
+  addItem: (item: Omit<Item, 'id'>) => Promise<{ success: boolean; error?: unknown }>;
   getItemById: (id: string) => Item | undefined;
   loading: boolean;
   error: string | null;
@@ -71,7 +71,7 @@ export function ItemProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, [toast]);
 
-  const addItem = async (newItemData: Omit<Item, 'id'>) => {
+  const addItem = async (newItemData: Omit<Item, 'id'>): Promise<{ success: boolean; error?: unknown }> => {
      if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
       console.warn("Firebase not configured. Adding item locally for demo purposes.");
       const newItem = { ...newItemData, id: new Date().toISOString() };
@@ -80,23 +80,38 @@ export function ItemProvider({ children }: { children: ReactNode }) {
         title: "Sample Mode",
         description: "Item added to local view. It will not be saved to a database.",
       });
-      return;
+      return { success: true };
     }
     try {
       await addDoc(collection(db, "items"), {
         ...newItemData,
         createdAt: serverTimestamp()
       });
+      return { success: true };
     } catch (err) {
       console.error("Error adding document to Firestore: ", err);
       if (err instanceof FirestoreError && err.code === 'permission-denied') {
          toast({
             variant: 'destructive',
             title: 'Permission Denied',
-            description: 'Your Firestore security rules do not allow writing to the "items" collection.',
+            description: (
+              <div className="text-xs text-left">
+                <p className="mb-2">Your security rules are blocking you from adding items. To fix this, go to your Firebase project, then <b>Firestore Database &gt; Rules</b> and paste the following, then click <b>Publish</b>:</p>
+                <pre className="mt-2 p-2 bg-destructive-foreground/10 rounded-sm whitespace-pre-wrap font-mono">
+{`rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /items/{itemId} {
+      allow read, write: if true;
+    }
+  }
+}`}
+                </pre>
+              </div>
+            ),
          });
       }
-      throw err;
+      return { success: false, error: err };
     }
   };
   
