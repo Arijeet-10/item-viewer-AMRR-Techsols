@@ -5,13 +5,15 @@ import type { ReactNode } from 'react';
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { Item } from '@/types';
 import { db } from '@/lib/firebase';
-import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, type QueryDocumentSnapshot, type DocumentData } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, type QueryDocumentSnapshot, type DocumentData, FirestoreError } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
 
 type ItemContextType = {
   items: Item[];
   addItem: (item: Omit<Item, 'id'>) => Promise<void>;
   getItemById: (id: string) => Item | undefined;
   loading: boolean;
+  error: string | null;
 };
 
 const ItemContext = createContext<ItemContextType | undefined>(undefined);
@@ -19,6 +21,8 @@ const ItemContext = createContext<ItemContextType | undefined>(undefined);
 export function ItemProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
@@ -44,14 +48,26 @@ export function ItemProvider({ children }: { children: ReactNode }) {
         });
       });
       setItems(itemsData);
+      setError(null);
       setLoading(false);
-    }, (error) => {
-        console.error("Error fetching items from Firestore:", error);
+    }, (err) => {
+        console.error("Error fetching items from Firestore:", err);
+        let errorMessage = "Could not fetch items from the database.";
+        if (err instanceof FirestoreError && err.code === 'permission-denied') {
+            errorMessage = "Permission denied. Please check your Firestore security rules."
+            toast({
+                variant: 'destructive',
+                title: 'Permission Denied',
+                description: 'Your Firestore security rules do not allow reading from the "items" collection.',
+            });
+        }
+        setError(errorMessage);
+        setItems([]);
         setLoading(false);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [toast]);
 
   const addItem = async (newItemData: Omit<Item, 'id'>) => {
      if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
@@ -62,9 +78,16 @@ export function ItemProvider({ children }: { children: ReactNode }) {
         ...newItemData,
         createdAt: serverTimestamp()
       });
-    } catch (error) {
-      console.error("Error adding document to Firestore: ", error);
-      throw error;
+    } catch (err) {
+      console.error("Error adding document to Firestore: ", err);
+      if (err instanceof FirestoreError && err.code === 'permission-denied') {
+         toast({
+            variant: 'destructive',
+            title: 'Permission Denied',
+            description: 'Your Firestore security rules do not allow writing to the "items" collection.',
+         });
+      }
+      throw err;
     }
   };
   
@@ -73,7 +96,7 @@ export function ItemProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <ItemContext.Provider value={{ items, addItem, getItemById, loading }}>
+    <ItemContext.Provider value={{ items, addItem, getItemById, loading, error }}>
       {children}
     </ItemContext.Provider>
   );

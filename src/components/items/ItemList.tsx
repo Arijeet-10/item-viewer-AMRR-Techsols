@@ -10,9 +10,11 @@ import type { Item } from '@/types';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 import { Card, CardHeader } from '../ui/card';
+import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
+import { Terminal } from 'lucide-react';
 
 export function ItemList() {
-  const { items, loading } = useItems();
+  const { items, loading, error } = useItems();
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -42,6 +44,33 @@ export function ItemList() {
             </CardHeader>
           </Card>
         ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto max-w-2xl py-20">
+        <Alert variant="destructive">
+            <Terminal className="h-4 w-4" />
+            <AlertTitle>Error Fetching Data</AlertTitle>
+            <AlertDescription>
+                {error}
+                <div className="mt-4 text-xs text-left bg-muted p-4 rounded-md font-mono text-muted-foreground">
+                    <b>Tip:</b> For development, you need to allow access to your database. Go to your Firebase project, then navigate to <b>Firestore Database &gt; Rules</b> and paste the following, then click <b>Publish</b>:
+                    <pre className="mt-2 p-2 bg-background rounded-sm whitespace-pre-wrap">
+{`rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /items/{itemId} {
+      allow read, write: if true;
+    }
+  }
+}`}
+                    </pre>
+                </div>
+            </AlertDescription>
+        </Alert>
       </div>
     );
   }
