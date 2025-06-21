@@ -26,7 +26,7 @@ export const initialItems: Item[] = [
     description: 'Comfortable and sleek leather sneakers. These shoes are designed for both style and comfort, with a cushioned insole and a durable rubber outsole.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'leather sneakers',
-    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x403.png', 'https://placehold.co/600x404.png'],
   },
   {
     id: '4',
@@ -35,7 +35,7 @@ export const initialItems: Item[] = [
     description: 'Lightweight and breathable running shorts for your workout sessions. Made with moisture-wicking fabric to keep you dry and comfortable.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'running shorts',
-    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x405.png', 'https://placehold.co/600x406.png'],
   },
    {
     id: '5',
@@ -44,7 +44,7 @@ export const initialItems: Item[] = [
     description: 'Classic aviator sunglasses with polarized lenses. Provides 100% UV protection while adding a cool factor to any outfit.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'aviator sunglasses',
-    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x407.png', 'https://placehold.co/600x408.png'],
   },
    {
     id: '6',
@@ -53,7 +53,7 @@ export const initialItems: Item[] = [
     description: 'A cozy blue hoodie made from a soft cotton blend. Features a drawstring hood and a large front pocket. Ideal for cool weather.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'blue hoodie',
-    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x409.png', 'https://placehold.co/600x410.png'],
   },
   {
     id: '7',
@@ -62,7 +62,7 @@ export const initialItems: Item[] = [
     description: 'Versatile khaki chinos that can be dressed up or down. Made from a comfortable stretch cotton twill.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'khaki pants',
-    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x411.png', 'https://placehold.co/600x412.png'],
   },
   {
     id: '8',
@@ -71,7 +71,7 @@ export const initialItems: Item[] = [
     description: 'A classic brown leather belt with a simple silver buckle. The perfect finishing touch for any outfit.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'leather belt',
-    additionalImages: ['https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x413.png'],
   },
   {
     id: '9',
@@ -80,7 +80,7 @@ export const initialItems: Item[] = [
     description: 'A sophisticated chronograph watch with a stainless steel strap and a dark blue face. Water-resistant and perfect for both formal and casual occasions.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'chronograph watch',
-    additionalImages: ['https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x414.png'],
   },
   {
     id: '10',
@@ -89,7 +89,7 @@ export const initialItems: Item[] = [
     description: 'A durable and spacious canvas backpack, perfect for daily commutes or weekend trips. Features multiple compartments and padded laptop sleeve.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'canvas backpack',
-    additionalImages: ['https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x415.png'],
   },
   {
     id: '11',
@@ -98,7 +98,7 @@ export const initialItems: Item[] = [
     description: 'A breathable linen dress shirt in a light-blue color. Ideal for warm weather, offering a sharp yet relaxed look.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'dress shirt',
-    additionalImages: ['https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x416.png'],
   },
   {
     id: '12',
@@ -107,7 +107,7 @@ export const initialItems: Item[] = [
     description: 'Classic suede loafers in a versatile tan color. Comfortable for all-day wear and easy to pair with chinos or jeans.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'suede loafers',
-    additionalImages: ['https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x417.png'],
   },
   {
     id: '13',
@@ -116,7 +116,7 @@ export const initialItems: Item[] = [
     description: 'A classic black leather jacket. Perfect for a cool, edgy look. Features a front zip and multiple pockets.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'leather jacket',
-    additionalImages: ['https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x418.png'],
   },
   {
     id: '14',
@@ -125,7 +125,7 @@ export const initialItems: Item[] = [
     description: 'A soft and warm wool scarf in a neutral grey color. Perfect for staying warm in style during colder months.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'wool scarf',
-    additionalImages: ['https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x419.png'],
   },
   {
     id: '15',
@@ -134,7 +134,7 @@ export const initialItems: Item[] = [
     description: 'Comfortable grey sweatpants for lounging or a casual day out. Made from a soft cotton blend with a relaxed fit.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'grey sweatpants',
-    additionalImages: ['https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x420.png'],
   },
   {
     id: '16',
@@ -143,6 +143,6 @@ export const initialItems: Item[] = [
     description: 'Durable and waterproof hiking boots designed for tough terrains. Provides excellent support and traction.',
     coverImage: 'https://placehold.co/600x400.png',
     'data-ai-hint': 'hiking boots',
-    additionalImages: ['https://placehold.co/600x400.png'],
+    additionalImages: ['https://placehold.co/600x421.png'],
   },
 ];
