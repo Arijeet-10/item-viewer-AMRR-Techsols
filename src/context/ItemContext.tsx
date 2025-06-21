@@ -54,17 +54,17 @@ export function ItemProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }, (err) => {
         console.error("Error fetching items from Firestore:", err);
-        let errorMessage = "Could not fetch items from the database.";
         if (err instanceof FirestoreError && err.code === 'permission-denied') {
-            errorMessage = "Permission denied. Displaying sample data instead. Please check your Firestore security rules to connect to the database."
             setItems(initialItems); // Fallback to initial data
             toast({
                 variant: 'destructive',
                 title: 'Permission Denied',
                 description: 'Your Firestore security rules do not allow reading. Displaying sample data instead.',
             });
+            setError(null); // Don't block UI with an error screen
+        } else {
+            setError("Could not fetch items from the database.");
         }
-        setError(errorMessage);
         setLoading(false);
     });
 

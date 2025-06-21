@@ -55,4 +55,22 @@ export const initialItems: Item[] = [
     'data-ai-hint': 'blue hoodie',
     additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
   },
+  {
+    id: '7',
+    name: 'Khaki Chinos',
+    type: 'Pant',
+    description: 'Versatile khaki chinos that can be dressed up or down. Made from a comfortable stretch cotton twill.',
+    coverImage: 'https://placehold.co/600x400.png',
+    'data-ai-hint': 'khaki pants',
+    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+  },
+  {
+    id: '8',
+    name: 'Leather Belt',
+    type: 'Accessory',
+    description: 'A classic brown leather belt with a simple silver buckle. The perfect finishing touch for any outfit.',
+    coverImage: 'https://placehold.co/600x400.png',
+    'data-ai-hint': 'leather belt',
+    additionalImages: ['https://placehold.co/600x400.png'],
+  },
 ];
