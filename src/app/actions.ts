@@ -1,6 +1,7 @@
 'use server';
 
 import { suggestComplementaryItems, type SuggestComplementaryItemsInput } from '@/ai/flows/suggest-complementary-items';
+import { sendEnquiry } from '@/ai/flows/send-enquiry-flow';
 import type { Item } from '@/types';
 
 async function imageUrlToDataUri(url: string): Promise<string> {
@@ -53,5 +54,20 @@ export async function getOutfitSuggestions(currentItem: Item, existingItems: Ite
     console.error('Error getting outfit suggestions:', error);
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
     return { success: false, error: errorMessage };
+  }
+}
+
+export async function handleEnquiry(item: Item) {
+  try {
+    const result = await sendEnquiry({
+      itemName: item.name,
+      itemType: item.type,
+      itemDescription: item.description,
+    });
+    return { success: result.success, message: result.message || 'Enquiry sent.' };
+  } catch (error) {
+    console.error('Error handling enquiry:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+    return { success: false, message: `Failed to send enquiry: ${errorMessage}` };
   }
 }

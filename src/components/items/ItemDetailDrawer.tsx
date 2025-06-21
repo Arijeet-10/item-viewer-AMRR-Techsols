@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import {
   Sheet,
   SheetContent,
@@ -11,6 +14,9 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import { OutfitSuggestions } from './OutfitSuggestions';
+import { handleEnquiry } from '@/app/actions';
+import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
 
 interface ItemDetailDrawerProps {
   item: Item | null;
@@ -19,9 +25,43 @@ interface ItemDetailDrawerProps {
 }
 
 export function ItemDetailDrawer({ item, isOpen, onClose }: ItemDetailDrawerProps) {
+  const [isEnquiring, setIsEnquiring] = useState(false);
+  const { toast } = useToast();
+
   if (!item) {
     return null;
   }
+
+  const onEnquireClick = async () => {
+    if (!item) return;
+
+    setIsEnquiring(true);
+    try {
+        const result = await handleEnquiry(item);
+    
+        if (result.success) {
+          toast({
+            title: 'Success!',
+            description: result.message,
+            variant: 'default',
+          });
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: result.message,
+          });
+        }
+    } catch (error) {
+        toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'An unexpected error occurred.',
+          });
+    } finally {
+        setIsEnquiring(false);
+    }
+  };
 
   const allImages = [item.coverImage, ...item.additionalImages];
 
@@ -42,7 +82,10 @@ export function ItemDetailDrawer({ item, isOpen, onClose }: ItemDetailDrawerProp
           <OutfitSuggestions item={item} />
         </div>
         <SheetFooter className="p-6 bg-background border-t">
-          <Button type="button" className="w-full">Enquire</Button>
+          <Button type="button" className="w-full" onClick={onEnquireClick} disabled={isEnquiring}>
+            {isEnquiring && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Enquire
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>
