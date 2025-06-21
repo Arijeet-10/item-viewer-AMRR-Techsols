@@ -1,0 +1,58 @@
+import type { Item } from '@/types';
+
+export const initialItems: Item[] = [
+  {
+    id: '1',
+    name: 'Classic White Tee',
+    type: 'Shirt',
+    description: 'A timeless classic, this white t-shirt is made from 100% premium cotton. It offers a comfortable fit and a versatile look that pairs well with anything.',
+    coverImage: 'https://placehold.co/600x400.png',
+    'data-ai-hint': 'white t-shirt',
+    additionalImages: ['https://placehold.co/600x401.png', 'https://placehold.co/600x402.png'],
+  },
+  {
+    id: '2',
+    name: 'Denim Jeans',
+    type: 'Pant',
+    description: 'Stylish and durable denim jeans. Perfect for casual outings and everyday wear. Features a slim-fit design with a classic five-pocket style.',
+    coverImage: 'https://placehold.co/600x400.png',
+    'data-ai-hint': 'denim jeans',
+    additionalImages: ['https://placehold.co/601x400.png', 'https://placehold.co/602x400.png'],
+  },
+  {
+    id: '3',
+    name: 'Leather Sneakers',
+    type: 'Shoes',
+    description: 'Comfortable and sleek leather sneakers. These shoes are designed for both style and comfort, with a cushioned insole and a durable rubber outsole.',
+    coverImage: 'https://placehold.co/600x400.png',
+    'data-ai-hint': 'leather sneakers',
+    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+  },
+  {
+    id: '4',
+    name: 'Running Shorts',
+    type: 'Sports Gear',
+    description: 'Lightweight and breathable running shorts for your workout sessions. Made with moisture-wicking fabric to keep you dry and comfortable.',
+    coverImage: 'https://placehold.co/600x400.png',
+    'data-ai-hint': 'running shorts',
+    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+  },
+   {
+    id: '5',
+    name: 'Aviator Sunglasses',
+    type: 'Accessory',
+    description: 'Classic aviator sunglasses with polarized lenses. Provides 100% UV protection while adding a cool factor to any outfit.',
+    coverImage: 'https://placehold.co/600x400.png',
+    'data-ai-hint': 'aviator sunglasses',
+    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+  },
+   {
+    id: '6',
+    name: 'Blue Hoodie',
+    type: 'Shirt',
+    description: 'A cozy blue hoodie made from a soft cotton blend. Features a drawstring hood and a large front pocket. Ideal for cool weather.',
+    coverImage: 'https://placehold.co/600x400.png',
+    'data-ai-hint': 'blue hoodie',
+    additionalImages: ['https://placehold.co/600x400.png', 'https://placehold.co/600x400.png'],
+  },
+];
