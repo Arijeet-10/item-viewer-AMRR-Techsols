@@ -16,7 +16,18 @@ import { Separator } from '../ui/separator';
 import { OutfitSuggestions } from './OutfitSuggestions';
 import { handleEnquiry } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Trash2 } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useItems } from '@/context/ItemContext';
 
 interface ItemDetailDrawerProps {
   item: Item | null;
@@ -26,7 +37,9 @@ interface ItemDetailDrawerProps {
 
 export function ItemDetailDrawer({ item, isOpen, onClose }: ItemDetailDrawerProps) {
   const [isEnquiring, setIsEnquiring] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
+  const { deleteItem } = useItems();
 
   if (!item) {
     return null;
@@ -63,6 +76,35 @@ export function ItemDetailDrawer({ item, isOpen, onClose }: ItemDetailDrawerProp
     }
   };
 
+  const handleDelete = async () => {
+    if (!item) return;
+    setIsDeleting(true);
+    try {
+      const result = await deleteItem(item.id);
+      if (result.success) {
+        toast({
+          title: 'Deleted!',
+          description: 'The item has been removed from your wardrobe.',
+        });
+        onClose();
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Could not delete the item. Please try again.',
+        });
+      }
+    } catch (error) {
+       toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'An unexpected error occurred while deleting the item.',
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const allImages = [item.coverImage, ...item.additionalImages];
 
   return (
@@ -81,8 +123,32 @@ export function ItemDetailDrawer({ item, isOpen, onClose }: ItemDetailDrawerProp
           <Separator />
           <OutfitSuggestions item={item} />
         </div>
-        <SheetFooter className="p-6 bg-background border-t">
-          <Button type="button" className="w-full" onClick={onEnquireClick} disabled={isEnquiring}>
+        <SheetFooter className="p-6 bg-background border-t sm:justify-between">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete "{item.name}"
+                  from your wardrobe.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDelete} disabled={isDeleting}>
+                  {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <Button type="button" onClick={onEnquireClick} disabled={isEnquiring}>
             {isEnquiring && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Enquire
           </Button>
